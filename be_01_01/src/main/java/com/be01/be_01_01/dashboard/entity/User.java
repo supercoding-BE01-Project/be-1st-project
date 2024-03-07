@@ -1,8 +1,6 @@
-package com.be01.be_01_01.dashboard.entiry;
+package com.be01.be_01_01.dashboard.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;

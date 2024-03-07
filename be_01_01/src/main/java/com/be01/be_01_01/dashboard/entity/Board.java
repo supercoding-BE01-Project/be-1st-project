@@ -1,4 +1,4 @@
-package com.be01.be_01_01.dashboard.entiry;
+package com.be01.be_01_01.dashboard.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
