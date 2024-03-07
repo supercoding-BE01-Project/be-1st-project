@@ -1,15 +1,16 @@
 package com.be01.be_01_01.dashboard.dto;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DashboardPostsDTO {
     @NonNull
     private String title;
     @NonNull
     private String content;
-    private String name;
+    @NonNull
+    private String userId;
 }
