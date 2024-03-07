@@ -1,6 +1,7 @@
 package com.be01.be_01_01.dashboard.entiry;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -24,7 +25,8 @@ public class Board {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime localDateTime;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();

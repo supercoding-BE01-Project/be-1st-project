@@ -1,6 +1,7 @@
 package com.be01.be_01_01.dashboard.entiry;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class Comment {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime localDateTime;
 
 }
