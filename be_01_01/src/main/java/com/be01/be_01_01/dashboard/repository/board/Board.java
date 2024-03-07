@@ -27,7 +27,7 @@ public class Board {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    private User user;
 
     @Column(name="title",nullable = false,length = 45) // VARCHAR 글자 제한 추가
     private String title;
