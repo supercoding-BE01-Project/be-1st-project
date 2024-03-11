@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 public class DashboardPostsDTO {
     private Integer userId;
+    private Integer boardId;
     private String title;
     private String content;
 }
