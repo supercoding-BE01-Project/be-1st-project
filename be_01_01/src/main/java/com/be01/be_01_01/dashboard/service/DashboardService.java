@@ -67,7 +67,6 @@ public class DashboardService {
                 board.getTitle(),
                 board.getContent(),
                 board.getUsers().getName(),
-                board.getCreatedAt()
-        )).collect(Collectors.toList());
+                board.getCreatedAt())).collect(Collectors.toList());
     }
 }
