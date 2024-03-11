@@ -23,7 +23,7 @@ public class Users {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private Integer phoneNum;
+    private String phoneNum;
 
     @Column(nullable = false)
     private String password;
