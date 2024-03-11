@@ -22,9 +22,9 @@ public class DashboardController {
 
     // 게시물 생성 API
     @PostMapping("/posts")
-    public ResponseEntity<Board> createPost(@RequestBody DashboardPostsDTO dashboardPostsDTO) {
+    public ResponseEntity<Board> createBoard(@RequestBody DashboardPostsDTO dashboardPostsDTO) {
         try {
-            Board createBoard = dashboardService.postsBoard(dashboardPostsDTO);
+            Board createBoard = dashboardService.createBoard(dashboardPostsDTO);
             return new ResponseEntity<>(createBoard, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             // 유저 또는 입력된 데이터가 유효하지 않을 때 예외 처리

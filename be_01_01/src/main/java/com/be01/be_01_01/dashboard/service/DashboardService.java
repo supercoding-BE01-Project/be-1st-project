@@ -22,7 +22,7 @@ public class DashboardService {
     }
 
     @Transactional
-    public Board postsBoard(DashboardPostsDTO dashboardPostsDTO) {
+    public Board createBoard(DashboardPostsDTO dashboardPostsDTO) {
 
         Users users = usersRepository.findById(dashboardPostsDTO.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + dashboardPostsDTO.getUserId()));
