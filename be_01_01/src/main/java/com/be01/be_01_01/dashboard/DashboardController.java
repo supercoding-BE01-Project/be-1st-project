@@ -1,19 +1,21 @@
 package com.be01.be_01_01.dashboard;
 
-import com.be01.be_01_01.dashboard.dto.DashboardPostsDTO;
-import com.be01.be_01_01.dashboard.entity.Board;
+import com.be01.be_01_01.dashboard.dto.BoardResponseDTO;
+import com.be01.be_01_01.dashboard.dto.CreateBoardDTO;
+import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
 import com.be01.be_01_01.dashboard.entity.Comment;
 import com.be01.be_01_01.dashboard.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class DashboardController {
     private final DashboardService dashboardService;
 
@@ -23,12 +25,16 @@ public class DashboardController {
     }
 
     // 게시물 전체 조회 API
-
+    @GetMapping("/posts")
+    public ResponseEntity<?> findAllBoards() {
+        List<BoardResponseDTO> boards = dashboardService.findAllBoards();
+        return ResponseEntity.ok().body(Map.of("boards", boards));
+    }
     // 게시물 생성 API
     @PostMapping("/posts")
-    public ResponseEntity<?> createBoard(@RequestBody DashboardPostsDTO dashboardPostsDTO) {
+    public ResponseEntity<?> createBoard(@RequestBody CreateBoardDTO createBoardDTO) {
         try {
-            dashboardService.createBoard(dashboardPostsDTO);
+            dashboardService.createBoard(createBoardDTO);
             Map<String, String> response = new HashMap<>();
             response.put("message", "게시물이 성공적으로 작성되었습니다.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -42,9 +48,9 @@ public class DashboardController {
     }
     // 댓글 생성 API
     @PostMapping("/comments")
-    public ResponseEntity<?> createComment(@RequestBody DashboardPostsDTO dashboardPostsDTO) {
+    public ResponseEntity<?> createComment(@RequestBody CreateCommentDTO createCommentDTO) {
         try {
-            Comment createComment = dashboardService.createComment(dashboardPostsDTO);
+            dashboardService.createComment(createCommentDTO);
             Map<String, String> response = new HashMap<>();
             response.put("message", "댓글이 성공적으로 작성되었습니다.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);

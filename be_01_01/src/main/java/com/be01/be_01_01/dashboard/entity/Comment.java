@@ -30,6 +30,6 @@ public class Comment {
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
-    private LocalDateTime localDateTime;
+    private LocalDateTime createdAt;
 
 }

@@ -12,6 +12,3 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-server:
-  servlet:
-    context-path: /api

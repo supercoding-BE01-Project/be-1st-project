@@ -1,10 +1,7 @@
 package com.be01.be_01_01.dashboard.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -16,6 +13,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Setter
 public class Board {
     @Id
@@ -34,7 +32,7 @@ public class Board {
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
-    private LocalDateTime localDateTime;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();

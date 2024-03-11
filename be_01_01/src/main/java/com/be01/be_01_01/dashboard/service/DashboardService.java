@@ -1,10 +1,15 @@
 package com.be01.be_01_01.dashboard.service;
 
-import com.be01.be_01_01.dashboard.dto.DashboardPostsDTO;
+import com.be01.be_01_01.dashboard.dto.BoardResponseDTO;
+import com.be01.be_01_01.dashboard.dto.CreateBoardDTO;
+import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
 import com.be01.be_01_01.dashboard.entity.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DashboardService {
@@ -21,36 +26,48 @@ public class DashboardService {
     }
 
     @Transactional
-    public Board createBoard(DashboardPostsDTO dashboardPostsDTO) {
+    public Board createBoard(CreateBoardDTO createBoardDTO) {
 
-        Users users = usersRepository.findById(dashboardPostsDTO.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + dashboardPostsDTO.getUserId()));
+        Users users = usersRepository.findById(createBoardDTO.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + createBoardDTO.getUserId()));
 
         // 게시글 작성
         Board board = Board.builder()
                 .users(users)
-                .title(dashboardPostsDTO.getTitle())
-                .content(dashboardPostsDTO.getContent())
+                .title(createBoardDTO.getTitle())
+                .content(createBoardDTO.getContent())
                 .build();
 
         return boardRepository.save(board);
     }
 
     @Transactional
-    public Comment createComment(DashboardPostsDTO dashboardPostsDTO) {
+    public Comment createComment(CreateCommentDTO createCommentDTO) {
 
-        Users users = usersRepository.findById(dashboardPostsDTO.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + dashboardPostsDTO.getUserId()));
-        Board board = boardRepository.findById(dashboardPostsDTO.getBoardId())
-                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. ID : " + dashboardPostsDTO.getBoardId()));
+        Users users = usersRepository.findById(createCommentDTO.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + createCommentDTO.getUserId()));
+        Board board = boardRepository.findById(createCommentDTO.getBoardId())
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. ID : " + createCommentDTO.getBoardId()));
 
         // 댓글 작성
         Comment comment = Comment.builder()
                 .users(users)
                 .board(board)
-                .content(dashboardPostsDTO.getContent())
+                .content(createCommentDTO.getContent())
                 .build();
 
         return commentRepository.save(comment);
+    }
+
+    @Transactional
+    public List<BoardResponseDTO> findAllBoards() {
+        List<Board> boards = boardRepository.findAll();
+        return boards.stream().map(board -> new BoardResponseDTO(
+                board.getBoardId(),
+                board.getTitle(),
+                board.getContent(),
+                board.getUsers().getName(),
+                board.getCreatedAt()
+        )).collect(Collectors.toList());
     }
 }

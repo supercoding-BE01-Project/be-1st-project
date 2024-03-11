@@ -4,9 +4,8 @@ import lombok.*;
 
 @Getter
 @Setter
-public class DashboardPostsDTO {
+public class CreateBoardDTO {
     private Integer userId;
-    private Integer boardId;
     private String title;
     private String content;
 }
