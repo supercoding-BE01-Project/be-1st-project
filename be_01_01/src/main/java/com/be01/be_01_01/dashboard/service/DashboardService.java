@@ -4,6 +4,9 @@ import com.be01.be_01_01.dashboard.dto.BoardResponseDTO;
 import com.be01.be_01_01.dashboard.dto.CreateBoardDTO;
 import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
 import com.be01.be_01_01.dashboard.entity.*;
+import com.be01.be_01_01.dashboard.repository.BoardRepository;
+import com.be01.be_01_01.dashboard.repository.CommentRepository;
+import com.be01.be_01_01.dashboard.repository.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +65,16 @@ public class DashboardService {
     @Transactional
     public List<BoardResponseDTO> findAllBoards() {
         List<Board> boards = boardRepository.findAll();
+        return boards.stream().map(board -> new BoardResponseDTO(
+                board.getBoardId(),
+                board.getTitle(),
+                board.getContent(),
+                board.getUsers().getName(),
+                board.getCreatedAt())).collect(Collectors.toList());
+    }
+
+    public List<BoardResponseDTO> findBoardsByEmail(String email) {
+        List<Board> boards = boardRepository.findByUsersEmail(email);
         return boards.stream().map(board -> new BoardResponseDTO(
                 board.getBoardId(),
                 board.getTitle(),

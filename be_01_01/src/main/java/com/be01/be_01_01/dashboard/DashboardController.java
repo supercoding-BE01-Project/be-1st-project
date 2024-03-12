@@ -27,7 +27,14 @@ public class DashboardController {
     @GetMapping("/posts")
     public ResponseEntity<?> findAllBoards() {
         List<BoardResponseDTO> boards = dashboardService.findAllBoards();
-        return ResponseEntity.ok().body(Map.of("boards", boards));
+        return ResponseEntity.ok().body(Map.of("posts", boards));
+    }
+
+    // 게시물 이메일 통해서 조회 API
+    @GetMapping("/posts/search")
+    public ResponseEntity<?> findBoardsByEmail(@RequestParam("author_email") String email) {
+        List<BoardResponseDTO> boards = dashboardService.findBoardsByEmail(email);
+        return ResponseEntity.ok().body(Map.of("posts", boards));
     }
 
     // 게시물 생성 API
