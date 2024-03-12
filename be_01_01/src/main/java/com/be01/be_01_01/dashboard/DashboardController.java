@@ -1,6 +1,7 @@
 package com.be01.be_01_01.dashboard;
 
 import com.be01.be_01_01.dashboard.dto.BoardResponseDTO;
+import com.be01.be_01_01.dashboard.dto.CommentResponseDTO;
 import com.be01.be_01_01.dashboard.dto.CreateBoardDTO;
 import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
 import com.be01.be_01_01.dashboard.service.DashboardService;
@@ -35,6 +36,13 @@ public class DashboardController {
     public ResponseEntity<?> findBoardsByEmail(@RequestParam("author_email") String email) {
         List<BoardResponseDTO> boards = dashboardService.findBoardsByEmail(email);
         return ResponseEntity.ok().body(Map.of("posts", boards));
+    }
+
+    // 댓글 조회 API
+    @GetMapping("/comments")
+    public ResponseEntity<?> findAllComments() {
+        List<CommentResponseDTO> comments = dashboardService.findAllComments();
+        return ResponseEntity.ok().body(Map.of("comments", comments));
     }
 
     // 게시물 생성 API

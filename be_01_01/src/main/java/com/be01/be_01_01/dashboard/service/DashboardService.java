@@ -1,6 +1,7 @@
 package com.be01.be_01_01.dashboard.service;
 
 import com.be01.be_01_01.dashboard.dto.BoardResponseDTO;
+import com.be01.be_01_01.dashboard.dto.CommentResponseDTO;
 import com.be01.be_01_01.dashboard.dto.CreateBoardDTO;
 import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
 import com.be01.be_01_01.dashboard.entity.*;
@@ -81,5 +82,15 @@ public class DashboardService {
                 board.getContent(),
                 board.getUsers().getName(),
                 board.getCreatedAt())).collect(Collectors.toList());
+    }
+
+    public List<CommentResponseDTO> findAllComments() {
+        List<Comment> comments = commentRepository.findAll();
+        return comments.stream().map(comment -> new CommentResponseDTO(
+                comment.getCommentId(),
+                comment.getContent(),
+                comment.getUsers().getName(),
+                comment.getBoard().getBoardId(),
+                comment.getCreatedAt())).collect(Collectors.toList());
     }
 }
