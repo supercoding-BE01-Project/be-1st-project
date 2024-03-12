@@ -11,8 +11,9 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "user")
+@Table(name = "userinfo")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,9 @@ public class User {
 
     @Column(name = "password",nullable = false)
     private String password;
+
+    @Column(name = "role")
+    private String role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Board> boards = new HashSet<>();

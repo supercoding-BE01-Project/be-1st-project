@@ -2,6 +2,7 @@ package com.be01.be_01_01;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 /*
 	* 백엔드 하프타임 01팀 01차 프로젝트
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 	* 김시원, 김은우, 조성연
  */
 @SpringBootApplication
+@EnableCaching
 public class Be0101Application {
 
 	public static void main(String[] args) {

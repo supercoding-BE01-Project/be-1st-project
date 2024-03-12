@@ -1,7 +1,6 @@
 package com.be01.be_01_01.dashboard.config;
 
 import org.springframework.context.annotation.Bean;
-import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -19,4 +18,6 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
+
+
 }

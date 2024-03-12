@@ -1,13 +1,14 @@
 package com.be01.be_01_01.dashboard.web.dto;
 
 import com.be01.be_01_01.dashboard.repository.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@NoArgsConstructor
 @Getter
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class UserLoginDTO {
 
     private String email;
