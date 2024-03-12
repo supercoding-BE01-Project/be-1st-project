@@ -1,11 +1,12 @@
 package com.be01.be_01_01.dashboard.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Data
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class CommentResponseDTO {
     private Integer commentId;

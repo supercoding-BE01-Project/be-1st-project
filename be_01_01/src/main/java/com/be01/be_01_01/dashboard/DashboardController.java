@@ -1,10 +1,8 @@
 package com.be01.be_01_01.dashboard;
 
-import com.be01.be_01_01.dashboard.dto.BoardResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CommentResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CreateBoardDTO;
-import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
+import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.service.DashboardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+//@RequiredArgsConstructor
 @RequestMapping("/api")
 public class DashboardController {
     private final DashboardService dashboardService;
@@ -77,5 +76,21 @@ public class DashboardController {
             // 기타 예외 처리
             return new ResponseEntity<>("기타 예외가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    // 게시글 수정 API
+    @PutMapping("/{boardId}/update")
+    public ResponseEntity<Void> updateBoard(@PathVariable Integer boardId, UpdateBoardDto dto) {
+        dto.setBoardId(boardId);
+        dashboardService.updateBoard(dto);
+        return ResponseEntity.ok().build();
+    }
+
+
+    // 게시글 삭제 APi
+    @DeleteMapping("/{boardId}/delete")
+    public String deleteBoardByPathBoardId(@PathVariable Integer boardId) {
+        dashboardService.deleteBoard(boardId);
+        return "삭제 완료";
     }
 }

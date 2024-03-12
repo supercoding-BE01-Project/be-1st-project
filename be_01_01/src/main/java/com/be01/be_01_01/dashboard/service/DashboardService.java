@@ -1,13 +1,11 @@
 package com.be01.be_01_01.dashboard.service;
 
-import com.be01.be_01_01.dashboard.dto.BoardResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CommentResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CreateBoardDTO;
-import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
+import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.entity.*;
 import com.be01.be_01_01.dashboard.repository.BoardRepository;
 import com.be01.be_01_01.dashboard.repository.CommentRepository;
 import com.be01.be_01_01.dashboard.repository.UsersRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,4 +91,26 @@ public class DashboardService {
                 comment.getBoard().getBoardId(),
                 comment.getCreatedAt())).collect(Collectors.toList());
     }
+
+    @org.springframework.transaction.annotation.Transactional
+    public void updateBoard(UpdateBoardDto dto) {
+        Board board = boardRepository.findById(dto.getBoardId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시글을 찾을 수 없습니다. Board ID: " + dto.getBoardId()));
+
+        if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
+            board.setTitle(dto.getTitle());
+        }
+        if (dto.getContent() != null && !dto.getContent().isEmpty()) {
+            board.setContent(dto.getContent());
+        }
+        boardRepository.save(board);
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public void deleteBoard(Integer boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new RuntimeException("해당 Id로 작성한 게시물을 찾을 수 없습니다.: " + boardId));
+        boardRepository.delete(board);
+    }
+
 }

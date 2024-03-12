@@ -12,12 +12,12 @@ import java.util.Set;
 @Table(name = "board")
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Data
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "board_id", unique = true)
     private Integer boardId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,5 +36,12 @@ public class Board {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
 }
