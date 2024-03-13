@@ -34,6 +34,7 @@ public class AuthService {
         String password = signUpRequest.getPassword();
         String username = signUpRequest.getName();
         String phoneNum = signUpRequest.getPhoneNum();
+        String role = signUpRequest.getRole();
 
         // 서버에서도 유효성 검사 추가
         if (username == null || username.isEmpty()) {
@@ -52,6 +53,7 @@ public class AuthService {
                         .email(email)
                         .password(encodedPassword) // 암호화된 비밀번호 저장
                         .phoneNum(phoneNum)
+                        .role(role)
                         .build())
         );
 
@@ -76,6 +78,12 @@ public class AuthService {
 
         return Collections.singletonList("USER");
     }
+
+    public String createToken(String email) {
+        String token = jwtTokenProvider.createToken(email); // 토큰 생성 및 변수에 저장
+        return token; // 생성된 토큰 반환
+    }
+
 }
 
 

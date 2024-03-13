@@ -2,7 +2,6 @@ package com.be01.be_01_01.dashboard.web.controller;
 
 import com.be01.be_01_01.dashboard.web.dto.DashboardPostsDTO;
 import com.be01.be_01_01.dashboard.service.UserService;
-import com.be01.be_01_01.dashboard.web.dto.UserLoginDTO;
 import com.be01.be_01_01.dashboard.web.dto.UserPostsDTO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

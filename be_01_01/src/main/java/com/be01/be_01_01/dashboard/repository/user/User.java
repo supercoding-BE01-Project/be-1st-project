@@ -4,8 +4,12 @@ import com.be01.be_01_01.dashboard.repository.board.Board;
 import com.be01.be_01_01.dashboard.repository.comment.Comment;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @Getter
 @Setter
@@ -13,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "userinfo")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,4 +44,13 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
+
+    // 사용자의 역할을 Spring Security의 GrantedAuthority로 변환하는 메서드
+    public List<GrantedAuthority> getAuthorities() {
+        if (role == null || role.isEmpty()) {
+            return Collections.emptyList();  // 역할이 없는 경우 빈 목록 반환
+        }
+        return Collections.singletonList(new SimpleGrantedAuthority(this.role));
+        // 역할을 GrantedAuthority로 변환하여 반환
+    }
 }
