@@ -5,9 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UpdatePostDto {
-    private Integer userId;
-    private Integer boardId;
+public class UpdatePostDTO {
+    private Integer postId;
     private String title;
     private String content;
 }

@@ -77,30 +77,30 @@ public class DashboardController {
     }
 
     // 게시글 수정 API
-    @PutMapping("/{postId}")
-    public ResponseEntity<Void> updateBoard(@PathVariable Integer postId, @RequestBody UpdateBoardDto dto) {
-        dto.setBoardId(postId);
-        dashboardService.updateBoard(dto);
+    @PutMapping("/posts/{postId}")
+    public ResponseEntity<Void> updatePost(@PathVariable Integer postId, @RequestBody UpdatePostDTO updatePostDTO) {
+        updatePostDTO.setPostId(postId);
+        dashboardService.updatePost(updatePostDTO);
         return ResponseEntity.ok().build();
     }
 
     // 댓글 수정 API
-    @PutMapping("/{commentId}")
-    public ResponseEntity<Void> updateComment(@PathVariable Integer commentId, @RequestBody UpdateCommentDto dto) {
-        dto.setCommentId(commentId);
-        dashboardService.updateComment(dto);
+    @PutMapping("/comments/{commentId}")
+    public ResponseEntity<Void> updateComment(@PathVariable Integer commentId, @RequestBody UpdateCommentDTO updateCommentDTO) {
+        updateCommentDTO.setCommentId(commentId);
+        dashboardService.updateComment(updateCommentDTO);
         return ResponseEntity.ok().build();
     }
 
     // 게시글 삭제 API
-    @DeleteMapping("/{postId}")
-    public String deleteBoardByPathBoardId(@PathVariable Integer postId) {
-        dashboardService.deleteBoard(postId);
+    @DeleteMapping("/posts/{postId}")
+    public String deletePostByPathPostId(@PathVariable Integer postId) {
+        dashboardService.deletePost(postId);
         return "삭제 완료";
     }
 
     // 댓글 삭제 API
-    @DeleteMapping("/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     public String deleteCommentByPathCommentId(@PathVariable Integer commentId) {
         dashboardService.deleteComment(commentId);
         return "삭제 완료";

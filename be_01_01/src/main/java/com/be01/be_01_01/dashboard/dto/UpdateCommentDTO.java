@@ -5,10 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UpdateCommentDto {
-    private Integer userId;
-    private Integer boardId;
+public class UpdateCommentDTO {
     private Integer commentId;
-    private String title;
     private String content;
 }

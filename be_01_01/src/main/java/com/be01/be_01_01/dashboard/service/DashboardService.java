@@ -89,22 +89,22 @@ public class DashboardService {
     }
     //게시판 수정
     @Transactional
-    public void updateBoard(UpdateBoardDto dto) {
-        Post post = postRepository.findById(dto.getBoardId())
-                .orElseThrow(() -> new EntityNotFoundException("해당 게시물을 찾을 수 없습니다. Board ID: " + dto.getBoardId()));
+    public void updatePost(UpdatePostDTO updatePostDTO) {
+        Post post = postRepository.findById(updatePostDTO.getPostId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시물을 찾을 수 없습니다. Post ID: " + updatePostDTO.getPostId()));
 
-        if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
-            post.setTitle(dto.getTitle());
+        if (updatePostDTO.getTitle() != null && !updatePostDTO.getTitle().isEmpty()) {
+            post.setTitle(updatePostDTO.getTitle());
         }
-        if (dto.getContent() != null && !dto.getContent().isEmpty()) {
-            post.setContent(dto.getContent());
+        if (updatePostDTO.getContent() != null && !updatePostDTO.getContent().isEmpty()) {
+            post.setContent(updatePostDTO.getContent());
         }
         postRepository.save(post);
     }
 
     //댓글 수정
     @Transactional
-    public void updateComment(UpdateCommentDto dto) {
+    public void updateComment(UpdateCommentDTO dto) {
         Comment comment = commentRepository.findById(dto.getCommentId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 댓글을 찾을 수 없습니다. Comment ID: " + dto.getCommentId()));
 
@@ -116,7 +116,7 @@ public class DashboardService {
 
     //게시판 삭제
     @Transactional
-    public void deleteBoard(Integer postId) {
+    public void deletePost(Integer postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("해당 Id로 작성한 게시물을 찾을 수 없습니다.: " + postId));
         postRepository.delete(post);
