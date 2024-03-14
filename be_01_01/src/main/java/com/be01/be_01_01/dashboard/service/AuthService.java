@@ -1,10 +1,10 @@
 package com.be01.be_01_01.dashboard.service;
 
 import com.be01.be_01_01.dashboard.config.security.JwtTokenProvider;
-import com.be01.be_01_01.dashboard.repository.user.User;
-import com.be01.be_01_01.dashboard.repository.user.UserJpaRepository;
-import com.be01.be_01_01.dashboard.web.auth.Login;
-import com.be01.be_01_01.dashboard.web.auth.SignUp;
+import com.be01.be_01_01.dashboard.repository.User.User;
+import com.be01.be_01_01.dashboard.repository.User.UserJpaRepository;
+import com.be01.be_01_01.dashboard.dto.auth.Login;
+import com.be01.be_01_01.dashboard.dto.auth.SignUp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,7 +49,7 @@ public class AuthService {
         //  유저가 있으면 ID 만 등록 아니면 유저도 만들기
         User userFound = userJpaRepository.findByNameAndEmail(username,email).orElseGet(() ->
                 userJpaRepository.save(User.builder()
-                        .name(username)
+                        .Author(username)
                         .email(email)
                         .password(encodedPassword) // 암호화된 비밀번호 저장
                         .phoneNum(phoneNum)

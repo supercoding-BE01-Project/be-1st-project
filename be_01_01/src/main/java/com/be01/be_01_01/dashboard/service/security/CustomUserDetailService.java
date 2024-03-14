@@ -1,8 +1,9 @@
 package com.be01.be_01_01.dashboard.service.security;
 
-import com.be01.be_01_01.dashboard.repository.user.User;
-import com.be01.be_01_01.dashboard.repository.user.UserJpaRepository;
+import com.be01.be_01_01.dashboard.repository.User.User;
+import com.be01.be_01_01.dashboard.repository.User.UserJpaRepository;
 import com.be01.be_01_01.dashboard.repository.userDetails.CustomUserDetails;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,8 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +26,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 사용자 이름(이메일)을 기반으로 사용자 정보를 로드하는 메서드입니다.
-        User user = (User) userJpaRepository.findByEmail(username)
+        User user = userJpaRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
         // 사용자 이메일로 검색하여 사용자를 찾습니다. 찾지 못하면 예외를 발생시킵니다.
 

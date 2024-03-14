@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
+
+
 /*
 	* 백엔드 하프타임 01팀 01차 프로젝트
 	* 게시판 기능 API 구현

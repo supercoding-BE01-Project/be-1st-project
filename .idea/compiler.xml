@@ -10,5 +10,10 @@
         <module name="be_01_01.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="be_01_01" target="17" />
+      <module name="be_01_01.main" target="17" />
+      <module name="be_01_01.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

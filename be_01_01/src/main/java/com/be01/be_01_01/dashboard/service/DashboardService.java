@@ -1,13 +1,16 @@
 package com.be01.be_01_01.dashboard.service;
 
-import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
+
 import com.be01.be_01_01.dashboard.dto.CommentsResponseDTO;
 import com.be01.be_01_01.dashboard.dto.CreatePostDTO;
 import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
-import com.be01.be_01_01.dashboard.entity.*;
-import com.be01.be_01_01.dashboard.repository.PostRepository;
-import com.be01.be_01_01.dashboard.repository.CommentRepository;
-import com.be01.be_01_01.dashboard.repository.UserRepository;
+import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
+import com.be01.be_01_01.dashboard.repository.Comment.Comment;
+import com.be01.be_01_01.dashboard.repository.Post.Post;
+import com.be01.be_01_01.dashboard.repository.Post.PostJpaRepository;
+import com.be01.be_01_01.dashboard.repository.Comment.CommentJpaRepository;
+import com.be01.be_01_01.dashboard.repository.User.User;
+import com.be01.be_01_01.dashboard.repository.User.UserJpaRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,15 +22,15 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class DashboardService {
 
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
+    private final PostJpaRepository postRepository;
+    private final UserJpaRepository userJpaRepository;
+    private final CommentJpaRepository commentRepository;
 
     @Transactional
     public Post createPost(CreatePostDTO createPostDTO) {
 
         // Optional.orElseThrow() 사용하여 존재여부만 확인하고 바로 처리
-        User user = userRepository.findById(createPostDTO.getUserId())
+        User user = userJpaRepository.findById(createPostDTO.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + createPostDTO.getUserId()));
 
         // 게시글 작성
@@ -44,7 +47,7 @@ public class DashboardService {
     public Comment createComment(CreateCommentDTO createCommentDTO) {
 
         // Optional.orElseThrow() 사용하여 존재여부만 확인하고 바로 처리
-        User user = userRepository.findById(createCommentDTO.getUserId())
+        User user = userJpaRepository.findById(createCommentDTO.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + createCommentDTO.getUserId()));
         Post post = postRepository.findById(createCommentDTO.getPostId())
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. ID : " + createCommentDTO.getPostId()));

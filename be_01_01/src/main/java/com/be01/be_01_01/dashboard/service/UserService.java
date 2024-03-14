@@ -1,8 +1,9 @@
 package com.be01.be_01_01.dashboard.service;
 
-import com.be01.be_01_01.dashboard.repository.user.User;
-import com.be01.be_01_01.dashboard.repository.user.UserJpaRepository;
-import com.be01.be_01_01.dashboard.web.dto.UserPostsDTO;
+
+import com.be01.be_01_01.dashboard.repository.User.User;
+import com.be01.be_01_01.dashboard.repository.User.UserJpaRepository;
+import com.be01.be_01_01.dashboard.dto.UserPostsDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
