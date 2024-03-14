@@ -30,7 +30,7 @@ public class DashboardController {
 
     // 게시물 이메일 통해서 조회 API
     @GetMapping("/posts/search")
-    public ResponseEntity<?> findBoardsByEmail(@RequestParam("author_email") String email) {
+    public ResponseEntity<?> findPostsByEmail(@RequestParam("author_email") String email) {
         List<PostsResponseDTO> posts = dashboardService.findPostsByEmail(email);
         return ResponseEntity.ok().body(Map.of("posts", posts));
     }
