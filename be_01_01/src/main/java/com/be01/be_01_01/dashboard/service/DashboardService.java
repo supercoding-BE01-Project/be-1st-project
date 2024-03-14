@@ -1,13 +1,11 @@
 package com.be01.be_01_01.dashboard.service;
 
-import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CommentsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CreatePostDTO;
-import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
+import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.entity.*;
 import com.be01.be_01_01.dashboard.repository.PostRepository;
 import com.be01.be_01_01.dashboard.repository.CommentRepository;
 import com.be01.be_01_01.dashboard.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -88,5 +86,46 @@ public class DashboardService {
                 comment.getUser().getAuthor(),
                 comment.getPost().getPostId(),
                 comment.getCreatedAt())).collect(Collectors.toList());
+    }
+    //게시판 수정
+    @Transactional
+    public void updateBoard(UpdateBoardDto dto) {
+        Post post = postRepository.findById(dto.getBoardId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시물을 찾을 수 없습니다. Board ID: " + dto.getBoardId()));
+
+        if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
+            post.setTitle(dto.getTitle());
+        }
+        if (dto.getContent() != null && !dto.getContent().isEmpty()) {
+            post.setContent(dto.getContent());
+        }
+        postRepository.save(post);
+    }
+
+    //댓글 수정
+    @Transactional
+    public void updateComment(UpdateCommentDto dto) {
+        Comment comment = commentRepository.findById(dto.getCommentId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 댓글을 찾을 수 없습니다. Comment ID: " + dto.getCommentId()));
+
+        if (dto.getContent() != null && !dto.getContent().isEmpty()) {
+            comment.setContent(dto.getContent());
+        }
+        commentRepository.save(comment);
+    }
+
+    //게시판 삭제
+    @Transactional
+    public void deleteBoard(Integer postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("해당 Id로 작성한 게시물을 찾을 수 없습니다.: " + postId));
+        postRepository.delete(post);
+    }
+
+    //댓글 삭제
+    public void deleteComment(Integer commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("해당 Id로 작성한 댓글을 찾을 수 없습니다.: " + commentId));
+        commentRepository.delete(comment);
     }
 }

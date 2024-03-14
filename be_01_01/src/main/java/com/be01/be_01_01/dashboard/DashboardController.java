@@ -1,9 +1,6 @@
 package com.be01.be_01_01.dashboard;
 
-import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CommentsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CreatePostDTO;
-import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
+import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -77,5 +74,35 @@ public class DashboardController {
             // 기타 예외 처리
             return new ResponseEntity<>("기타 예외가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    // 게시글 수정 API
+    @PutMapping("/{postId}")
+    public ResponseEntity<Void> updateBoard(@PathVariable Integer postId, @RequestBody UpdateBoardDto dto) {
+        dto.setBoardId(postId);
+        dashboardService.updateBoard(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    // 댓글 수정 API
+    @PutMapping("/{commentId}")
+    public ResponseEntity<Void> updateComment(@PathVariable Integer commentId, @RequestBody UpdateCommentDto dto) {
+        dto.setCommentId(commentId);
+        dashboardService.updateComment(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    // 게시글 삭제 API
+    @DeleteMapping("/{postId}")
+    public String deleteBoardByPathBoardId(@PathVariable Integer postId) {
+        dashboardService.deleteBoard(postId);
+        return "삭제 완료";
+    }
+
+    // 댓글 삭제 API
+    @DeleteMapping("/{commentId}")
+    public String deleteCommentByPathCommentId(@PathVariable Integer commentId) {
+        dashboardService.deleteComment(commentId);
+        return "삭제 완료";
     }
 }
