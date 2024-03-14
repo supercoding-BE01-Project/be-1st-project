@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class BoardResponseDTO {
-    private Integer boardId;
+public class PostsResponseDTO {
+    private Integer postId;
     private String title;
     private String content;
-    private String name;
+    private String author;
     private LocalDateTime createdAt;
 }

@@ -11,13 +11,13 @@ import java.util.Set;
 @Table(name = "users")
 @Setter
 @Getter
-public class Users {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
     @Column(nullable = false)
-    private String name;
+    private String author;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -28,9 +28,9 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private Set<Board> boards = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<Post> posts = new HashSet<>();
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     private Set<Comment> comments = new HashSet<>();
 }

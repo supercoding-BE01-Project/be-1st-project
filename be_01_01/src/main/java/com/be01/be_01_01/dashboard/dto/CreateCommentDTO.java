@@ -6,6 +6,6 @@ import lombok.*;
 @Setter
 public class CreateCommentDTO {
     private Integer userId;
-    private Integer boardId;
+    private Integer postId;
     private String content;
 }

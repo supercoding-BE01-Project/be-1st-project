@@ -9,20 +9,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "board")
+@Table(name = "posts")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Board {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer boardId;
+    private Integer postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private Users users;
+    private User user;
 
     @Column(nullable = false)
     private String title;
@@ -34,7 +34,6 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post")
     private Set<Comment> comments = new HashSet<>();
-
 }

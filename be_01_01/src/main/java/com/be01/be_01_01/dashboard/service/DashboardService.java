@@ -1,62 +1,58 @@
 package com.be01.be_01_01.dashboard.service;
 
-import com.be01.be_01_01.dashboard.dto.BoardResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CommentResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CreateBoardDTO;
+import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
+import com.be01.be_01_01.dashboard.dto.CommentsResponseDTO;
+import com.be01.be_01_01.dashboard.dto.CreatePostDTO;
 import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
 import com.be01.be_01_01.dashboard.entity.*;
-import com.be01.be_01_01.dashboard.repository.BoardRepository;
+import com.be01.be_01_01.dashboard.repository.PostRepository;
 import com.be01.be_01_01.dashboard.repository.CommentRepository;
-import com.be01.be_01_01.dashboard.repository.UsersRepository;
+import com.be01.be_01_01.dashboard.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class DashboardService {
 
-    private final BoardRepository boardRepository;
-    private final UsersRepository usersRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    @Autowired
-    public DashboardService(BoardRepository boardRepository, UsersRepository usersRepository, CommentRepository commentRepository) {
-        this.boardRepository = boardRepository;
-        this.usersRepository = usersRepository;
-        this.commentRepository = commentRepository;
-    }
-
     @Transactional
-    public Board createBoard(CreateBoardDTO createBoardDTO) {
+    public Post createPost(CreatePostDTO createPostDTO) {
 
-        Users users = usersRepository.findById(createBoardDTO.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + createBoardDTO.getUserId()));
+        // Optional.orElseThrow() 사용하여 존재여부만 확인하고 바로 처리
+        User user = userRepository.findById(createPostDTO.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + createPostDTO.getUserId()));
 
         // 게시글 작성
-        Board board = Board.builder()
-                .users(users)
-                .title(createBoardDTO.getTitle())
-                .content(createBoardDTO.getContent())
+        Post post = Post.builder()
+                .user(user)
+                .title(createPostDTO.getTitle())
+                .content(createPostDTO.getContent())
                 .build();
 
-        return boardRepository.save(board);
+        return postRepository.save(post);
     }
 
     @Transactional
     public Comment createComment(CreateCommentDTO createCommentDTO) {
 
-        Users users = usersRepository.findById(createCommentDTO.getUserId())
+        // Optional.orElseThrow() 사용하여 존재여부만 확인하고 바로 처리
+        User user = userRepository.findById(createCommentDTO.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + createCommentDTO.getUserId()));
-        Board board = boardRepository.findById(createCommentDTO.getBoardId())
-                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. ID : " + createCommentDTO.getBoardId()));
+        Post post = postRepository.findById(createCommentDTO.getPostId())
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. ID : " + createCommentDTO.getPostId()));
 
         // 댓글 작성
         Comment comment = Comment.builder()
-                .users(users)
-                .board(board)
+                .user(user)
+                .post(post)
                 .content(createCommentDTO.getContent())
                 .build();
 
@@ -64,33 +60,33 @@ public class DashboardService {
     }
 
     @Transactional
-    public List<BoardResponseDTO> findAllBoards() {
-        List<Board> boards = boardRepository.findAll();
-        return boards.stream().map(board -> new BoardResponseDTO(
-                board.getBoardId(),
-                board.getTitle(),
-                board.getContent(),
-                board.getUsers().getName(),
-                board.getCreatedAt())).collect(Collectors.toList());
+    public List<PostsResponseDTO> findAllPosts() {
+        List<Post> postList = postRepository.findAll();
+        return postList.stream().map(post -> new PostsResponseDTO(
+                post.getPostId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getUser().getAuthor(),
+                post.getCreatedAt())).collect(Collectors.toList());
     }
 
-    public List<BoardResponseDTO> findBoardsByEmail(String email) {
-        List<Board> boards = boardRepository.findByUsersEmail(email);
-        return boards.stream().map(board -> new BoardResponseDTO(
-                board.getBoardId(),
-                board.getTitle(),
-                board.getContent(),
-                board.getUsers().getName(),
-                board.getCreatedAt())).collect(Collectors.toList());
+    public List<PostsResponseDTO> findPostsByEmail(String email) {
+        List<Post> postList = postRepository.findByUserEmail(email);
+        return postList.stream().map(post -> new PostsResponseDTO(
+                post.getPostId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getUser().getAuthor(),
+                post.getCreatedAt())).collect(Collectors.toList());
     }
 
-    public List<CommentResponseDTO> findAllComments() {
-        List<Comment> comments = commentRepository.findAll();
-        return comments.stream().map(comment -> new CommentResponseDTO(
+    public List<CommentsResponseDTO> findAllComments() {
+        List<Comment> commentList = commentRepository.findAll();
+        return commentList.stream().map(comment -> new CommentsResponseDTO(
                 comment.getCommentId(),
                 comment.getContent(),
-                comment.getUsers().getName(),
-                comment.getBoard().getBoardId(),
+                comment.getUser().getAuthor(),
+                comment.getPost().getPostId(),
                 comment.getCreatedAt())).collect(Collectors.toList());
     }
 }
