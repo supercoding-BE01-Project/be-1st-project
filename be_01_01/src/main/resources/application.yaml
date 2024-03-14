@@ -1,5 +1,6 @@
 server:
   port: 8080
+
 spring:
   mvc:
     pathmatch:
@@ -12,10 +13,22 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+      properties:
+        hibernate:
+          show-sql: true
+          format_sql: true
+          use_sql_comments: true
     properties:
       hibernate:
-        format_sql: true
+        generate_statistics: true
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: trace
+    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.stat: debug
 
 jwt:
   secret-key-source: ${JWT_SECRET_KEY}
+
+
