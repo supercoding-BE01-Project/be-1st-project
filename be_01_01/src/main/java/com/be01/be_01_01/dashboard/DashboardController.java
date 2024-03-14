@@ -3,7 +3,6 @@ package com.be01.be_01_01.dashboard;
 import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.service.DashboardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class DashboardController {
     private final DashboardService dashboardService;
-
-    @Autowired
-    private DashboardController(DashboardService dashboardService) {
-        this.dashboardService = dashboardService;
-    }
 
     // 게시물 전체 조회 API
     @GetMapping("/posts")
@@ -79,18 +73,32 @@ public class DashboardController {
     }
 
     // 게시글 수정 API
-    @PutMapping("/{boardId}/update")
-    public ResponseEntity<Void> updateBoard(@PathVariable Integer boardId, UpdateBoardDto dto) {
+    @PutMapping("/{boardId}")
+    public ResponseEntity<Void> updateBoard(@PathVariable Integer boardId, @RequestBody UpdateBoardDto dto) {
         dto.setBoardId(boardId);
         dashboardService.updateBoard(dto);
         return ResponseEntity.ok().build();
     }
 
+    // 댓글 수정 API
+    @PutMapping("/{commentId}")
+    public ResponseEntity<Void> updateComment(@PathVariable Integer commentId, @RequestBody UpdateCommentDto dto) {
+        dto.setCommentId(commentId);
+        dashboardService.updateComment(dto);
+        return ResponseEntity.ok().build();
+    }
 
-    // 게시글 삭제 APi
-    @DeleteMapping("/{boardId}/delete")
+    // 게시글 삭제 API
+    @DeleteMapping("/{boardId}")
     public String deleteBoardByPathBoardId(@PathVariable Integer boardId) {
         dashboardService.deleteBoard(boardId);
+        return "삭제 완료";
+    }
+
+    // 댓글 삭제 API
+    @DeleteMapping("/{commentId}")
+    public String deleteCommentByPathCommentId(@PathVariable Integer commentId) {
+        dashboardService.deleteComment(commentId);
         return "삭제 완료";
     }
 }

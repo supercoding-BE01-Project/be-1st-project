@@ -6,26 +6,20 @@ import com.be01.be_01_01.dashboard.repository.BoardRepository;
 import com.be01.be_01_01.dashboard.repository.CommentRepository;
 import com.be01.be_01_01.dashboard.repository.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DashboardService {
 
     private final BoardRepository boardRepository;
     private final UsersRepository usersRepository;
     private final CommentRepository commentRepository;
-
-    @Autowired
-    public DashboardService(BoardRepository boardRepository, UsersRepository usersRepository, CommentRepository commentRepository) {
-        this.boardRepository = boardRepository;
-        this.usersRepository = usersRepository;
-        this.commentRepository = commentRepository;
-    }
 
     @Transactional
     public Board createBoard(CreateBoardDTO createBoardDTO) {
@@ -91,11 +85,11 @@ public class DashboardService {
                 comment.getBoard().getBoardId(),
                 comment.getCreatedAt())).collect(Collectors.toList());
     }
-
-    @org.springframework.transaction.annotation.Transactional
+    //게시판 수정
+    @Transactional
     public void updateBoard(UpdateBoardDto dto) {
         Board board = boardRepository.findById(dto.getBoardId())
-                .orElseThrow(() -> new EntityNotFoundException("해당 게시글을 찾을 수 없습니다. Board ID: " + dto.getBoardId()));
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시물을 찾을 수 없습니다. Board ID: " + dto.getBoardId()));
 
         if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
             board.setTitle(dto.getTitle());
@@ -106,11 +100,32 @@ public class DashboardService {
         boardRepository.save(board);
     }
 
-    @org.springframework.transaction.annotation.Transactional
+    //댓글 수정
+    @Transactional
+    public void updateComment(UpdateCommentDto dto) {
+        Comment comment = commentRepository.findById(dto.getCommentId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 댓글을 찾을 수 없습니다. Comment ID: " + dto.getCommentId()));
+
+        if (dto.getContent() != null && !dto.getContent().isEmpty()) {
+            comment.setContent(dto.getContent());
+        }
+        commentRepository.save(comment);
+    }
+
+    //게시판 삭제
+    @Transactional
     public void deleteBoard(Integer boardId) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new RuntimeException("해당 Id로 작성한 게시물을 찾을 수 없습니다.: " + boardId));
         boardRepository.delete(board);
     }
 
+    //댓글 삭제
+    public void deleteComment(Integer commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("해당 Id로 작성한 댓글을 찾을 수 없습니다.: " + commentId));
+        commentRepository.delete(comment);
+    }
+
 }
+

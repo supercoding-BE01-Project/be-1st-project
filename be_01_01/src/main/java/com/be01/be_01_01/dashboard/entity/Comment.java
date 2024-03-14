@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id", unique = true)
     private Integer commentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,4 +34,8 @@ public class Comment {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
+
