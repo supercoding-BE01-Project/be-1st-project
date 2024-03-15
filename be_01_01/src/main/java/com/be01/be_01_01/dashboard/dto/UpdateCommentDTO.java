@@ -1,0 +1,11 @@
+package com.be01.be_01_01.dashboard.dto;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class UpdateCommentDTO {
+    private Integer commentId;
+    private String content;
+}
