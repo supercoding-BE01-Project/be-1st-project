@@ -4,8 +4,9 @@ import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
 import com.be01.be_01_01.dashboard.dto.CommentsResponseDTO;
 import com.be01.be_01_01.dashboard.dto.CreatePostDTO;
 import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
-import com.be01.be_01_01.dashboard.service.DashboardService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.be01.be_01_01.dashboard.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,33 +16,32 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
-public class DashboardController {
-    private final DashboardService dashboardService;
+public class PostController {
 
-    @Autowired
-    private DashboardController(DashboardService dashboardService) {
-        this.dashboardService = dashboardService;
-    }
+    private final PostService postService;
+
+
 
     // 게시물 전체 조회 API
     @GetMapping("/posts")
     public ResponseEntity<?> findAllPosts() {
-        List<PostsResponseDTO> posts = dashboardService.findAllPosts();
+        List<PostsResponseDTO> posts = postService.findAllPosts();
         return ResponseEntity.ok().body(Map.of("posts", posts));
     }
 
     // 게시물 이메일 통해서 조회 API
     @GetMapping("/posts/search")
     public ResponseEntity<?> findBoardsByEmail(@RequestParam("author_email") String email) {
-        List<PostsResponseDTO> posts = dashboardService.findPostsByEmail(email);
+        List<PostsResponseDTO> posts = postService.findPostsByEmail(email);
         return ResponseEntity.ok().body(Map.of("posts", posts));
     }
 
     // 댓글 조회 API
     @GetMapping("/comments")
     public ResponseEntity<?> findAllComments() {
-        List<CommentsResponseDTO> comments = dashboardService.findAllComments();
+        List<CommentsResponseDTO> comments = postService.findAllComments();
         return ResponseEntity.ok().body(Map.of("comments", comments));
     }
 
@@ -49,7 +49,7 @@ public class DashboardController {
     @PostMapping("/posts")
     public ResponseEntity<?> createPost(@RequestBody CreatePostDTO createPostDTO) {
         try {
-            dashboardService.createPost(createPostDTO);
+            postService.createPost(createPostDTO);
             Map<String, String> response = new HashMap<>();
             response.put("message", "게시물이 성공적으로 작성되었습니다.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -66,7 +66,7 @@ public class DashboardController {
     @PostMapping("/comments")
     public ResponseEntity<?> createComment(@RequestBody CreateCommentDTO createCommentDTO) {
         try {
-            dashboardService.createComment(createCommentDTO);
+            postService.createComment(createCommentDTO);
             Map<String, String> response = new HashMap<>();
             response.put("message", "댓글이 성공적으로 작성되었습니다.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);

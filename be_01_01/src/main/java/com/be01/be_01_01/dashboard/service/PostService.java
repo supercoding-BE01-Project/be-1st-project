@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class DashboardService {
+public class PostService {
 
     private final PostJpaRepository postRepository;
     private final UserJpaRepository userJpaRepository;
-    private final CommentJpaRepository commentRepository;
+    private final CommentJpaRepository commentJpaRepository;
 
     @Transactional
     public Post createPost(CreatePostDTO createPostDTO) {
@@ -59,7 +59,7 @@ public class DashboardService {
                 .content(createCommentDTO.getContent())
                 .build();
 
-        return commentRepository.save(comment);
+        return commentJpaRepository.save(comment);
     }
 
     @Transactional
@@ -84,7 +84,7 @@ public class DashboardService {
     }
 
     public List<CommentsResponseDTO> findAllComments() {
-        List<Comment> commentList = commentRepository.findAll();
+        List<Comment> commentList = commentJpaRepository.findAll();
         return commentList.stream().map(comment -> new CommentsResponseDTO(
                 comment.getCommentId(),
                 comment.getContent(),

@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Integer commentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,7 +29,7 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
+    @Column(name="contents",nullable = false)
     private String content;
 
     @Column(name = "created_at", nullable = false)
