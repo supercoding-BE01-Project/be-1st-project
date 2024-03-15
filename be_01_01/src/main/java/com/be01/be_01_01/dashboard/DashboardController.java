@@ -1,9 +1,6 @@
 package com.be01.be_01_01.dashboard;
 
-import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CommentsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CreatePostDTO;
-import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
+import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +30,7 @@ public class DashboardController {
 
     // 게시물 이메일 통해서 조회 API
     @GetMapping("/posts/search")
-    public ResponseEntity<?> findBoardsByEmail(@RequestParam("author_email") String email) {
+    public ResponseEntity<?> findPostsByEmail(@RequestParam("author_email") String email) {
         List<PostsResponseDTO> posts = dashboardService.findPostsByEmail(email);
         return ResponseEntity.ok().body(Map.of("posts", posts));
     }
@@ -77,5 +74,35 @@ public class DashboardController {
             // 기타 예외 처리
             return new ResponseEntity<>("기타 예외가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    // 게시글 수정 API
+    @PutMapping("/posts/{postId}")
+    public ResponseEntity<Void> updatePost(@PathVariable Integer postId, @RequestBody UpdatePostDTO updatePostDTO) {
+        updatePostDTO.setPostId(postId);
+        dashboardService.updatePost(updatePostDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    // 댓글 수정 API
+    @PutMapping("/comments/{commentId}")
+    public ResponseEntity<Void> updateComment(@PathVariable Integer commentId, @RequestBody UpdateCommentDTO updateCommentDTO) {
+        updateCommentDTO.setCommentId(commentId);
+        dashboardService.updateComment(updateCommentDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    // 게시글 삭제 API
+    @DeleteMapping("/posts/{postId}")
+    public String deletePostByPathPostId(@PathVariable Integer postId) {
+        dashboardService.deletePost(postId);
+        return "삭제 완료";
+    }
+
+    // 댓글 삭제 API
+    @DeleteMapping("/comments/{commentId}")
+    public String deleteCommentByPathCommentId(@PathVariable Integer commentId) {
+        dashboardService.deleteComment(commentId);
+        return "삭제 완료";
     }
 }
