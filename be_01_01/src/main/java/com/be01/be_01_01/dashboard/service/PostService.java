@@ -1,16 +1,14 @@
 package com.be01.be_01_01.dashboard.service;
 
 
-import com.be01.be_01_01.dashboard.dto.CommentsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CreatePostDTO;
-import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
-import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
+import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.repository.Comment.Comment;
 import com.be01.be_01_01.dashboard.repository.Post.Post;
 import com.be01.be_01_01.dashboard.repository.Post.PostJpaRepository;
 import com.be01.be_01_01.dashboard.repository.Comment.CommentJpaRepository;
 import com.be01.be_01_01.dashboard.repository.User.User;
 import com.be01.be_01_01.dashboard.repository.User.UserJpaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class DashboardService {
+public class PostService {
 
     private final PostJpaRepository postRepository;
     private final UserJpaRepository userJpaRepository;
@@ -110,13 +108,13 @@ public class DashboardService {
     //댓글 수정
     @Transactional
     public void updateComment(UpdateCommentDTO dto) {
-        Comment comment = commentRepository.findById(dto.getCommentId())
+        Comment comment = commentJpaRepository.findById(dto.getCommentId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 댓글을 찾을 수 없습니다. Comment ID: " + dto.getCommentId()));
 
         if (dto.getContent() != null && !dto.getContent().isEmpty()) {
             comment.setContent(dto.getContent());
         }
-        commentRepository.save(comment);
+        commentJpaRepository.save(comment);
     }
 
     //게시판 삭제
@@ -129,8 +127,8 @@ public class DashboardService {
 
     //댓글 삭제
     public void deleteComment(Integer commentId) {
-        Comment comment = commentRepository.findById(commentId)
+        Comment comment = commentJpaRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("해당 Id로 작성한 댓글을 찾을 수 없습니다.: " + commentId));
-        commentRepository.delete(comment);
+        commentJpaRepository.delete(comment);
     }
 }

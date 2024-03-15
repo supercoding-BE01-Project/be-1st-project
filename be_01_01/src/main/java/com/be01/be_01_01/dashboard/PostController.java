@@ -1,10 +1,8 @@
 package com.be01.be_01_01.dashboard;
 
-import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CommentsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CreatePostDTO;
-import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
-import com.be01.be_01_01.dashboard.service.DashboardService;
+import com.be01.be_01_01.dashboard.dto.*;
+import com.be01.be_01_01.dashboard.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +80,7 @@ public class PostController {
     @PutMapping("/posts/{postId}")
     public ResponseEntity<Void> updatePost(@PathVariable Integer postId, @RequestBody UpdatePostDTO updatePostDTO) {
         updatePostDTO.setPostId(postId);
-        dashboardService.updatePost(updatePostDTO);
+        postService.updatePost(updatePostDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -90,21 +88,21 @@ public class PostController {
     @PutMapping("/comments/{commentId}")
     public ResponseEntity<Void> updateComment(@PathVariable Integer commentId, @RequestBody UpdateCommentDTO updateCommentDTO) {
         updateCommentDTO.setCommentId(commentId);
-        dashboardService.updateComment(updateCommentDTO);
+        postService.updateComment(updateCommentDTO);
         return ResponseEntity.ok().build();
     }
 
     // 게시글 삭제 API
     @DeleteMapping("/posts/{postId}")
     public String deletePostByPathPostId(@PathVariable Integer postId) {
-        dashboardService.deletePost(postId);
+        postService.deletePost(postId);
         return "삭제 완료";
     }
 
     // 댓글 삭제 API
     @DeleteMapping("/comments/{commentId}")
     public String deleteCommentByPathCommentId(@PathVariable Integer commentId) {
-        dashboardService.deleteComment(commentId);
+        postService.deleteComment(commentId);
         return "삭제 완료";
     }
 }
