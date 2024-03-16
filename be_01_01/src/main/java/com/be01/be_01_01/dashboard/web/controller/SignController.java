@@ -1,4 +1,4 @@
-package com.be01.be_01_01.dashboard.web;
+package com.be01.be_01_01.dashboard.web.controller;
 
 import com.be01.be_01_01.dashboard.config.security.JwtTokenProvider;
 import com.be01.be_01_01.dashboard.service.AuthService;
@@ -7,7 +7,7 @@ import com.be01.be_01_01.dashboard.dto.auth.Login;
 import com.be01.be_01_01.dashboard.dto.auth.Response;
 import com.be01.be_01_01.dashboard.dto.auth.SignUp;
 import com.be01.be_01_01.dashboard.dto.UserPostsDTO;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +28,13 @@ public class SignController {
 
 
     //전체 회원 정보 확인
-    @ApiOperation(value = "모든 회원을 조회(유저id PK,이메일,핸드폰 번호)")
+    @Operation(summary = "모든 회원을 조회(유저id PK,이메일,핸드폰 번호)")
     @GetMapping("/logininfos")
     public List<UserPostsDTO> userInfos(){
         return userService.findAllUserInfos();
     }
 
-    @ApiOperation("회원가입")
+    @Operation(summary = "회원가입")
     @PostMapping(value = "/register")
     public ResponseEntity<Response> register(@RequestBody SignUp signUpRequest) {
 
@@ -55,7 +55,7 @@ public class SignController {
         }
     }
 
-    @ApiOperation("로그인")
+    @Operation(summary = "로그인")
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody Login loginRequest, HttpServletResponse httpServletResponse) {
 
