@@ -1,4 +1,4 @@
-package com.be01.be_01_01.dashboard;
+package com.be01.be_01_01.dashboard.web.controller;
 
 import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.service.PostService;
