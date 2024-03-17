@@ -4,55 +4,125 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10f106f3-bbc1-4ad5-aed6-c9c09ecbb37d" name="변경" comment="" />
+    <list default="true" id="3ce49342-49ed-47cb-8207-f7befa0e0937" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/be_01_01/src/main/java/com/be01/be_01_01/dashboard/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/be_01_01/src/main/java/com/be01/be_01_01/dashboard/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/be_01_01/src/main/java/com/be01/be_01_01/dashboard/dto/auth/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/be_01_01/src/main/java/com/be01/be_01_01/dashboard/dto/auth/Response.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/be_01_01/src/main/java/com/be01/be_01_01/dashboard/service/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/be_01_01/src/main/java/com/be01/be_01_01/dashboard/service/PostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/be_01_01/src/main/java/com/be01/be_01_01/dashboard/web/SignController.java" beforeDir="false" afterPath="$PROJECT_DIR$/be_01_01/src/main/java/com/be01/be_01_01/dashboard/web/SignController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/be_01_01/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/be_01_01/src/main/resources/application.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/be_01_01">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Amsoboro"
-  }
-}]]></component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="selectedUrlAndAccountId">
-      <UrlAndAccount>
-        <option name="accountId" value="1c304fa7-8454-41e0-9b79-0d67780b0918" />
-        <option name="url" value="https://github.com/supercoding-BE01-Project/be-1st-project.git" />
-      </UrlAndAccount>
-    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
+  "associatedIndex": 8
 }]]></component>
-  <component name="ProjectId" id="2dJa5zLOCV2glg4CKkRihc7goQC" />
+  <component name="ProjectId" id="2dirxzTJqaKS5woc3p88EF24IJr" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "Develop",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/joseong-yeon/Downloads/개발/과제/be-1st-project",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "3f65e8c8722f7b25309f61edffb2c3e5",
     "vue.rearranger.settings.migration": "true"
   }
-}]]></component>
+}</component>
+  <component name="RunManager" selected="Spring Boot.Be0101Application">
+    <configuration name="be_01_01 [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/be_01_01" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="be_01_01 [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/be_01_01" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="Be0101Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <envs>
+        <env name="DATABASE_USERNAME" value="root" />
+        <env name="DATABASE_PASSWORD" value="12341234" />
+        <env name="JWT_SECRET_KEY" value="super-coding" />
+      </envs>
+      <module name="be_01_01.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.be01.be_01_01.Be0101Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.be_01_01 [build]" />
+        <item itemvalue="Gradle.be_01_01 [clean]" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -62,13 +132,20 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="디폴트 작업">
-      <changelist id="10f106f3-bbc1-4ad5-aed6-c9c09ecbb37d" name="변경" comment="" />
-      <created>1709728455919</created>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3ce49342-49ed-47cb-8207-f7befa0e0937" name="Changes" comment="" />
+      <created>1710501992540</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1709728455919</updated>
       <workItem from="1709728456996" duration="1001000" />
+<<<<<<<<< Temporary merge branch 1
+      <workItem from="1710248627428" duration="100000" />
+=========
+      <workItem from="1710425009040" duration="1547000" />
+      <workItem from="1710426581353" duration="592000" />
+      <workItem from="1710427196549" duration="2995000" />
+>>>>>>>>> Temporary merge branch 2
     </task>
     <servers />
   </component>

@@ -26,25 +26,6 @@ public class SecurityConfiguration {
     // JWT 토큰 제공자를 주입받는 필드
     private final JwtTokenProvider jwtTokenProvider;
 
-    // HttpSecurity를 사용하여 웹 보안을 구성하는 메소드
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                // 요청에 대한 접근 권한을 설정
-                .requestMatchers("/api/sign/register", "/api/sign/login").permitAll() // 회원가입, 로그인 경로는 모두에게 허용
-                .anyRequest().authenticated() // 그 외 모든 요청은 인증을 필요로 함
-                .and()
-                .logout()
-                // 로그아웃 설정
-                .logoutUrl("/api/sign/logout") // 로그아웃 처리 URL
-                .invalidateHttpSession(true) // 세션 무효화
-                .deleteCookies("JSESSIONID")  // 쿠키 삭제
-                .logoutSuccessUrl("/") // 로그아웃 성공 시 리다이렉트 URL
-                .permitAll()
-                .and()
-                .csrf().disable(); // CSRF 보호 기능 비활성화
-    }
-
     // SecurityFilterChain 빈을 등록하여 HTTP 요청에 대한 보안 필터 체인을 구성
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -58,8 +39,8 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeRequests()
                 // 요청에 대한 접근 권한 설정
-                .requestMatchers("/resources/static/**", "/api/*","/api/*/*").permitAll() // 정적 자원 및 특정 API 경로는 모두에게 허용
-                .requestMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui/**", "/webjars/**","/swagger/**").permitAll() // Swagger 문서 관련 경로는 모두에게 허용
+                .requestMatchers("/resources/static/**", "/api/**").permitAll() // 정적 자원 및 특정 API 경로는 모두에게 허용
+                .requestMatchers("/v3/**","/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Swagger 문서 관련 경로는 모두에게 허용
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증을 필요로 함
                 .and()
                 .exceptionHandling()

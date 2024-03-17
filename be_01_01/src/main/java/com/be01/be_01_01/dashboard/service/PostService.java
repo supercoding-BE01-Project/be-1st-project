@@ -1,22 +1,14 @@
 package com.be01.be_01_01.dashboard.service;
 
-import com.be01.be_01_01.dashboard.dto.*;
-import com.be01.be_01_01.dashboard.entity.*;
-import com.be01.be_01_01.dashboard.repository.PostRepository;
-import com.be01.be_01_01.dashboard.repository.CommentRepository;
-import com.be01.be_01_01.dashboard.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 
-import com.be01.be_01_01.dashboard.dto.CommentsResponseDTO;
-import com.be01.be_01_01.dashboard.dto.CreatePostDTO;
-import com.be01.be_01_01.dashboard.dto.CreateCommentDTO;
-import com.be01.be_01_01.dashboard.dto.PostsResponseDTO;
+import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.repository.Comment.Comment;
 import com.be01.be_01_01.dashboard.repository.Post.Post;
 import com.be01.be_01_01.dashboard.repository.Post.PostJpaRepository;
 import com.be01.be_01_01.dashboard.repository.Comment.CommentJpaRepository;
 import com.be01.be_01_01.dashboard.repository.User.User;
 import com.be01.be_01_01.dashboard.repository.User.UserJpaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,11 +18,11 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class DashboardService {
+public class PostService {
 
     private final PostJpaRepository postRepository;
     private final UserJpaRepository userJpaRepository;
-    private final CommentJpaRepository commentRepository;
+    private final CommentJpaRepository commentJpaRepository;
 
     @Transactional
     public Post createPost(CreatePostDTO createPostDTO) {
@@ -65,7 +57,7 @@ public class DashboardService {
                 .content(createCommentDTO.getContent())
                 .build();
 
-        return commentRepository.save(comment);
+        return commentJpaRepository.save(comment);
     }
 
     @Transactional
@@ -90,7 +82,7 @@ public class DashboardService {
     }
 
     public List<CommentsResponseDTO> findAllComments() {
-        List<Comment> commentList = commentRepository.findAll();
+        List<Comment> commentList = commentJpaRepository.findAll();
         return commentList.stream().map(comment -> new CommentsResponseDTO(
                 comment.getCommentId(),
                 comment.getContent(),
@@ -116,13 +108,13 @@ public class DashboardService {
     //댓글 수정
     @Transactional
     public void updateComment(UpdateCommentDTO dto) {
-        Comment comment = commentRepository.findById(dto.getCommentId())
+        Comment comment = commentJpaRepository.findById(dto.getCommentId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 댓글을 찾을 수 없습니다. Comment ID: " + dto.getCommentId()));
 
         if (dto.getContent() != null && !dto.getContent().isEmpty()) {
             comment.setContent(dto.getContent());
         }
-        commentRepository.save(comment);
+        commentJpaRepository.save(comment);
     }
 
     //게시판 삭제
@@ -135,8 +127,8 @@ public class DashboardService {
 
     //댓글 삭제
     public void deleteComment(Integer commentId) {
-        Comment comment = commentRepository.findById(commentId)
+        Comment comment = commentJpaRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("해당 Id로 작성한 댓글을 찾을 수 없습니다.: " + commentId));
-        commentRepository.delete(comment);
+        commentJpaRepository.delete(comment);
     }
 }

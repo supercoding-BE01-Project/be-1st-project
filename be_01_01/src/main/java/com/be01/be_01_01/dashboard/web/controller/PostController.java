@@ -1,7 +1,8 @@
-package com.be01.be_01_01.dashboard;
+package com.be01.be_01_01.dashboard.web.controller;
 
 import com.be01.be_01_01.dashboard.dto.*;
-import com.be01.be_01_01.dashboard.service.DashboardService;
+import com.be01.be_01_01.dashboard.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,33 +13,32 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
-public class DashboardController {
-    private final DashboardService dashboardService;
+public class PostController {
 
-    @Autowired
-    private DashboardController(DashboardService dashboardService) {
-        this.dashboardService = dashboardService;
-    }
+    private final PostService postService;
+
+
 
     // 게시물 전체 조회 API
     @GetMapping("/posts")
     public ResponseEntity<?> findAllPosts() {
-        List<PostsResponseDTO> posts = dashboardService.findAllPosts();
+        List<PostsResponseDTO> posts = postService.findAllPosts();
         return ResponseEntity.ok().body(Map.of("posts", posts));
     }
 
     // 게시물 이메일 통해서 조회 API
     @GetMapping("/posts/search")
     public ResponseEntity<?> findPostsByEmail(@RequestParam("author_email") String email) {
-        List<PostsResponseDTO> posts = dashboardService.findPostsByEmail(email);
+        List<PostsResponseDTO> posts = postService.findPostsByEmail(email);
         return ResponseEntity.ok().body(Map.of("posts", posts));
     }
 
     // 댓글 조회 API
     @GetMapping("/comments")
     public ResponseEntity<?> findAllComments() {
-        List<CommentsResponseDTO> comments = dashboardService.findAllComments();
+        List<CommentsResponseDTO> comments = postService.findAllComments();
         return ResponseEntity.ok().body(Map.of("comments", comments));
     }
 
@@ -46,7 +46,7 @@ public class DashboardController {
     @PostMapping("/posts")
     public ResponseEntity<?> createPost(@RequestBody CreatePostDTO createPostDTO) {
         try {
-            dashboardService.createPost(createPostDTO);
+            postService.createPost(createPostDTO);
             Map<String, String> response = new HashMap<>();
             response.put("message", "게시물이 성공적으로 작성되었습니다.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -63,7 +63,7 @@ public class DashboardController {
     @PostMapping("/comments")
     public ResponseEntity<?> createComment(@RequestBody CreateCommentDTO createCommentDTO) {
         try {
-            dashboardService.createComment(createCommentDTO);
+            postService.createComment(createCommentDTO);
             Map<String, String> response = new HashMap<>();
             response.put("message", "댓글이 성공적으로 작성되었습니다.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -80,7 +80,7 @@ public class DashboardController {
     @PutMapping("/posts/{postId}")
     public ResponseEntity<Void> updatePost(@PathVariable Integer postId, @RequestBody UpdatePostDTO updatePostDTO) {
         updatePostDTO.setPostId(postId);
-        dashboardService.updatePost(updatePostDTO);
+        postService.updatePost(updatePostDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -88,21 +88,21 @@ public class DashboardController {
     @PutMapping("/comments/{commentId}")
     public ResponseEntity<Void> updateComment(@PathVariable Integer commentId, @RequestBody UpdateCommentDTO updateCommentDTO) {
         updateCommentDTO.setCommentId(commentId);
-        dashboardService.updateComment(updateCommentDTO);
+        postService.updateComment(updateCommentDTO);
         return ResponseEntity.ok().build();
     }
 
     // 게시글 삭제 API
     @DeleteMapping("/posts/{postId}")
     public String deletePostByPathPostId(@PathVariable Integer postId) {
-        dashboardService.deletePost(postId);
+        postService.deletePost(postId);
         return "삭제 완료";
     }
 
     // 댓글 삭제 API
     @DeleteMapping("/comments/{commentId}")
     public String deleteCommentByPathCommentId(@PathVariable Integer commentId) {
-        dashboardService.deleteComment(commentId);
+        postService.deleteComment(commentId);
         return "삭제 완료";
     }
 }
