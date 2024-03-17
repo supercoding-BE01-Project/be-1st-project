@@ -1,7 +1,6 @@
 package com.be01.be_01_01.dashboard.repository.User;
 
 
-import com.be01.be_01_01.dashboard.repository.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
