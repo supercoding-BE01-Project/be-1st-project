@@ -24,14 +24,14 @@ public class User {
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "name",nullable = false,length = 45) // VARCHAR 글자 제한 추가
-    private String Author;
+    @Column(name = "author",nullable = false,length = 45) // VARCHAR 글자 제한 추가
+    private String author;
 
     @Column(name = "email",nullable = false, unique = true,length = 45) // VARCHAR 글자 제한 추가
     private String email;
 
     @Column(name = "phone_num",nullable = false, unique = true)
-    private String phoneNum;  // Iteger - > String sql도 VARCHAR로 변경
+    private String phoneNum;  // Integer - > String sql도 VARCHAR로 변경
 
     @Column(name = "password",nullable = false)
     private String password;

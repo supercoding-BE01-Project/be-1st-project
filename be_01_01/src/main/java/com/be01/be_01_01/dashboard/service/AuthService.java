@@ -49,7 +49,7 @@ public class AuthService {
         //  유저가 있으면 ID 만 등록 아니면 유저도 만들기
         User userFound = userJpaRepository.findByNameAndEmail(username,email).orElseGet(() ->
                 userJpaRepository.save(User.builder()
-                        .Author(username)
+                        .author(username)
                         .email(email)
                         .password(encodedPassword) // 암호화된 비밀번호 저장
                         .phoneNum(phoneNum)

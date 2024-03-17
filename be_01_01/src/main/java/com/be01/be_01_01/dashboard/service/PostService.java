@@ -92,9 +92,9 @@ public class PostService {
     }
     //게시판 수정
     @Transactional
-    public void updatePost(UpdatePostDTO updatePostDTO) {
-        Post post = postRepository.findById(updatePostDTO.getPostId())
-                .orElseThrow(() -> new EntityNotFoundException("해당 게시물을 찾을 수 없습니다. Post ID: " + updatePostDTO.getPostId()));
+    public void updatePost(Integer postId, UpdatePostDTO updatePostDTO) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시물을 찾을 수 없습니다. Post ID: " + postId));
 
         if (updatePostDTO.getTitle() != null && !updatePostDTO.getTitle().isEmpty()) {
             post.setTitle(updatePostDTO.getTitle());
@@ -107,12 +107,12 @@ public class PostService {
 
     //댓글 수정
     @Transactional
-    public void updateComment(UpdateCommentDTO dto) {
-        Comment comment = commentJpaRepository.findById(dto.getCommentId())
-                .orElseThrow(() -> new EntityNotFoundException("해당 댓글을 찾을 수 없습니다. Comment ID: " + dto.getCommentId()));
+    public void updateComment(Integer commentId, UpdateCommentDTO updateCommentDTO) {
+        Comment comment = commentJpaRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다. Comment ID: " + commentId));
 
-        if (dto.getContent() != null && !dto.getContent().isEmpty()) {
-            comment.setContent(dto.getContent());
+        if (updateCommentDTO.getContent() != null && !updateCommentDTO.getContent().isEmpty()) {
+            comment.setContent(updateCommentDTO.getContent());
         }
         commentJpaRepository.save(comment);
     }

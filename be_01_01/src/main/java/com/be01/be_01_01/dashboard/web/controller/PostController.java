@@ -3,11 +3,14 @@ package com.be01.be_01_01.dashboard.web.controller;
 import com.be01.be_01_01.dashboard.dto.*;
 import com.be01.be_01_01.dashboard.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class PostController {
 
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
     private final PostService postService;
 
 
@@ -47,15 +51,15 @@ public class PostController {
     public ResponseEntity<?> createPost(@RequestBody CreatePostDTO createPostDTO) {
         try {
             postService.createPost(createPostDTO);
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "게시물이 성공적으로 작성되었습니다.");
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+            return ResponseEntity.ok(Collections.singletonMap("message", "게시물이 성공적으로 작성되었습니다."));
         } catch (IllegalArgumentException e) {
             // 유저 또는 입력된 데이터가 유효하지 않을 때 예외 처리
-            return new ResponseEntity<>("유저 또는 입력 데이터가 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+            logger.error("유저 또는 입력 데이터가 유효하지 않습니다.", e);
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
         } catch (Exception e) {
             // 기타 예외 처리
-            return new ResponseEntity<>("기타 예외가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("기타 예외가 발생했습니다.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", e.getMessage()));
         }
     }
 
@@ -64,45 +68,79 @@ public class PostController {
     public ResponseEntity<?> createComment(@RequestBody CreateCommentDTO createCommentDTO) {
         try {
             postService.createComment(createCommentDTO);
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "댓글이 성공적으로 작성되었습니다.");
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+            return ResponseEntity.ok(Collections.singletonMap("message", "댓글이 성공적으로 작성되었습니다."));
         } catch (IllegalArgumentException e) {
             // 유저 또는 입력된 데이터가 유효하지 않을 때 예외 처리
-            return new ResponseEntity<>("유저 또는 입력 데이터가 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+            logger.error("유저 또는 입력 데이터가 유효하지 않습니다.", e);
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
         } catch (Exception e) {
             // 기타 예외 처리
-            return new ResponseEntity<>("기타 예외가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("기타 예외가 발생했습니다.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", e.getMessage()));
         }
     }
 
     // 게시글 수정 API
-    @PutMapping("/posts/{postId}")
-    public ResponseEntity<Void> updatePost(@PathVariable Integer postId, @RequestBody UpdatePostDTO updatePostDTO) {
-        updatePostDTO.setPostId(postId);
-        postService.updatePost(updatePostDTO);
-        return ResponseEntity.ok().build();
+    @PutMapping("/posts/{postId}/update")
+    public ResponseEntity<?> updatePost(@PathVariable Integer postId, @RequestBody UpdatePostDTO updatePostDTO) {
+        try {
+            postService.updatePost(postId, updatePostDTO);
+            return ResponseEntity.ok(Collections.singletonMap("message", "게시글이 성공적으로 수정되었습니다."));
+        } catch (IllegalArgumentException e) {
+            logger.error("유저 또는 입력 데이터가 유효하지 않습니다.", e);
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
+        } catch (Exception e) {
+            // 기타 예외 처리
+            logger.error("기타 예외가 발생했습니다.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", e.getMessage()));
+        }
     }
 
     // 댓글 수정 API
-    @PutMapping("/comments/{commentId}")
-    public ResponseEntity<Void> updateComment(@PathVariable Integer commentId, @RequestBody UpdateCommentDTO updateCommentDTO) {
-        updateCommentDTO.setCommentId(commentId);
-        postService.updateComment(updateCommentDTO);
-        return ResponseEntity.ok().build();
+    @PutMapping("/comments/{commentId}/update")
+    public ResponseEntity<?> updateComment(@PathVariable Integer commentId, @RequestBody UpdateCommentDTO updateCommentDTO) {
+        try {
+            postService.updateComment(commentId, updateCommentDTO);
+            return ResponseEntity.ok(Collections.singletonMap("message", "댓글이 성공적으로 수정되었습니다."));
+        } catch (IllegalArgumentException e) {
+            logger.error("유저 또는 입력 데이터가 유효하지 않습니다.", e);
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
+        } catch (Exception e) {
+            // 기타 예외 처리
+            logger.error("기타 예외가 발생했습니다.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", e.getMessage()));
+        }
     }
 
     // 게시글 삭제 API
-    @DeleteMapping("/posts/{postId}")
-    public String deletePostByPathPostId(@PathVariable Integer postId) {
-        postService.deletePost(postId);
-        return "삭제 완료";
+    @DeleteMapping("/posts/{postId}/delete")
+    public ResponseEntity<?> deletePost(@PathVariable Integer postId) {
+        try {
+            postService.deletePost(postId);
+            return ResponseEntity.ok(Collections.singletonMap("message", "게시글이 성공적으로 삭제되었습니다."));
+        } catch (IllegalArgumentException e) {
+            logger.error("유저 또는 입력 데이터가 유효하지 않습니다.", e);
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
+        } catch (Exception e) {
+            // 기타 예외 처리
+            logger.error("기타 예외가 발생했습니다.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", e.getMessage()));
+        }
     }
 
     // 댓글 삭제 API
-    @DeleteMapping("/comments/{commentId}")
-    public String deleteCommentByPathCommentId(@PathVariable Integer commentId) {
-        postService.deleteComment(commentId);
-        return "삭제 완료";
+    @DeleteMapping("/comments/{commentId}/delete")
+    public ResponseEntity<?> deleteComment(@PathVariable Integer commentId) {
+        try {
+            postService.deleteComment(commentId);
+            return ResponseEntity.ok(Collections.singletonMap("message", "댓글이 성공적으로 삭제되었습니다."));
+        } catch (IllegalArgumentException e) {
+            logger.error("유저 또는 입력 데이터가 유효하지 않습니다.", e);
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", e.getMessage()));
+        } catch (Exception e) {
+            // 기타 예외 처리
+            logger.error("기타 예외가 발생했습니다.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", e.getMessage()));
+        }
     }
 }
