@@ -58,8 +58,8 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeRequests()
                 // 요청에 대한 접근 권한 설정
-                .requestMatchers("/resources/static/**", "/api/**").permitAll() // 정적 자원 및 특정 API 경로는 모두에게 허용
-                .requestMatchers("/v3/**","/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Swagger 문서 관련 경로는 모두에게 허용
+                .requestMatchers("/resources/static/**", "/api/*","/api/*/*").permitAll() // 정적 자원 및 특정 API 경로는 모두에게 허용
+                .requestMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui/**", "/webjars/**","/swagger/**").permitAll() // Swagger 문서 관련 경로는 모두에게 허용
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증을 필요로 함
                 .and()
                 .exceptionHandling()

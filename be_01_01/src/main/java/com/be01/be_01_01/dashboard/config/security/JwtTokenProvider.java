@@ -78,25 +78,17 @@ public class JwtTokenProvider {
         }
     }
 
-    // JWT 토큰을 사용해서 사용자의 Authentication 객체를 리턴하는 메소드
     public Authentication getAuthentication(String jwtToken) {
-        // JWT 토큰에서 사용자 이메일(사용자 이름)을 추출
-        UserDetails userDetails = userDetailsService.loadUserByUsername(getUserEmail(jwtToken));
-        // UserDetails를 기반으로 UsernamePasswordAuthenticationToken 생성 및 반환
+        String userEmail = getUserEmail(jwtToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    // JWT 토큰에서 사용자의 이메일(주제)를 추출하는 private 메소드
     private String getUserEmail(String jwtToken) {
-        return Jwts.parser()
-                // 토큰 파서 생성
+        Claims claims = Jwts.parser()
                 .setSigningKey(secretKey)
-                // 서명 키 설정
                 .parseClaimsJws(jwtToken)
-                // 토큰 파싱
-                .getBody()
-                // Payload 부분(클레임)을 가져옴
-                .getSubject();
-                // 클레임에서 subject(이메일) 추출
+                .getBody();
+        return claims.getSubject();
     }
 }

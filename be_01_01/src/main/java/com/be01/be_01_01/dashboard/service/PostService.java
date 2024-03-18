@@ -34,8 +34,9 @@ public class PostService {
         String email = authentication.getName(); // 이메일
 
         // 이메일 기반으로 사용자 엔티티를 DB에서 조회, .orElseThrow()로 바로 검증
-        User user = userJpaRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. Email : " + email));
+        User user = userJpaRepository.findByEmail(createPostDTO.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. Email : " + createPostDTO.getEmail()));
+
 
         // 게시글 작성
         Post post = Post.builder()
