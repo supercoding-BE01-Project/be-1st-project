@@ -15,12 +15,10 @@ public class UserPostsDTO {
 
     private Integer userId;
     private String email;
-    private String phoneNum;
 
     public UserPostsDTO(User user){
         this.userId = user.getUserId();
         this.email = user.getEmail();
-        this.phoneNum = user.getPhoneNum();
     }
 
 }

@@ -108,22 +108,9 @@
       <workItem from="1710652723119" duration="132000" />
       <workItem from="1710652922490" duration="212000" />
     </task>
-    <task id="LOCAL-00001" summary="회원가입 시 토큰발행이 아닌 로그인 시 &#10;토큰 발행 헤더에 포함">
-      <option name="closed" value="true" />
-      <created>1710503997753</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1710503997753</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="회원가입 시 토큰발행이 아닌 로그인 시 &#10;토큰 발행 헤더에 포함" />
-    <option name="LAST_COMMIT_MESSAGE" value="회원가입 시 토큰발행이 아닌 로그인 시 &#10;토큰 발행 헤더에 포함" />
   </component>
 </project>

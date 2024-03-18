@@ -7,8 +7,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -19,7 +19,7 @@ import java.util.Set;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "posts_id")
+    @Column(name = "post_id")
     private Integer postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,10 +32,13 @@ public class Post {
     @Column(name="content",nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Column(name = "author", nullable = false, length = 10)
+    private String author;
+
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "post")
-    private Set<Comment> comments = new HashSet<>();
+    // 게시글 삭제시 댓글 전부 삭제 되게 수정
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 }

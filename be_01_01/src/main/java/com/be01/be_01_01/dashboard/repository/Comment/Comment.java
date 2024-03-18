@@ -29,8 +29,11 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name="contents",nullable = false)
+    @Column(name="content",nullable = false)
     private String content;
+
+    @Column(name = "author", nullable = false, length = 10)
+    private String author;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp

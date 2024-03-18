@@ -1,6 +1,7 @@
 package com.be01.be_01_01.dashboard.config.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
@@ -21,12 +22,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("${jwt.secret-key-source}") // application.yaml 에서 jwt.secret-key-source 값을 가져옴
+    @Value("${jwt.secret-key-source}") // application.yml 에서 jwt.secret-key-source 값을 가져옴
     private String secretKeySource;
     private String secretKey;
 
-
     private final UserDetailsService userDetailsService; // 사용자 정보를 로드하는 서비스
+
     @PostConstruct // 빈 초기화 후 실행될 메서드
     public void setUp(){
         secretKey = Base64.getEncoder()
@@ -38,26 +39,14 @@ public class JwtTokenProvider {
 
     // HTTP 요청에서 토큰을 가져오는 메서드
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
-        // 요청 헤더에서 "X-AUTH-TOKEN" 값을 가져옴
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7); // "Bearer " 무시
+        }
+        return null;
     }
 
-    // 토큰을 생성하는 메서드 (역할 정보 포함)
-    public String createToken(String email, List<String> roles) {
-        Claims claims = Jwts.claims()
-                .setSubject(email); // 이메일을 주제로 설정
-        claims.put("roles", roles); // 역할 정보 추가
-        Date now = new Date();
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now) // 발행 시간 설정
-                .setExpiration(new Date(now.getTime() + tokenValidMillisecond)) // 만료 시간 설정
-                .signWith(SignatureAlgorithm.HS256, secretKey) // HS256 알고리즘과 비밀키를 사용하여 서명
-                .compact(); // JWT 생성
-    }
-
-    // 토큰을 생성하는 메서드 (역할 정보 미포함)
-    public String createToken(String email) { // 위 메서드와 유사, 역할 정보는 포함하지 않음
+    public String createToken(String email) {
         Date now = new Date();
 
         return Jwts.builder()
@@ -77,11 +66,14 @@ public class JwtTokenProvider {
                     .parseClaimsJws(jwtToken)
                     // 토큰 파싱
                     .getBody(); // Payload 부분(클레임)을 가져옴
+            Date experationDate = claims.getExpiration(); // 토큰 만료 시간
             Date now = new Date(); // 현재 시간
-            // 토큰의 만료 시간이 현재 시간보다 이후인지 확인
-            return claims.getExpiration()
-                    .after(now);
-        } catch (Exception e) { // 파싱 중 예외 발생 시 false 반환
+            // 토큰의 만료 시간이 현재 시간보다 이전이거나 동일하면 만료
+            return experationDate != null && experationDate.after(now);
+        } catch (ExpiredJwtException e) { // 만료시 예외 반환
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

@@ -24,7 +24,6 @@ public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserJpaRepository userJpaRepository;
-    private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
@@ -32,12 +31,9 @@ public class AuthService {
     public boolean signUp(SignUp signUpRequest) {
         String email = signUpRequest.getEmail();
         String password = signUpRequest.getPassword();
-        String username = signUpRequest.getName();
-        String phoneNum = signUpRequest.getPhoneNum();
-        String role = signUpRequest.getRole();
 
         // 서버에서도 유효성 검사 추가
-        if (username == null || username.isEmpty()) {
+        if (email == null || email.isEmpty()) {
             return false; // 이름이 없으면 회원가입 실패
         }
 
@@ -47,13 +43,10 @@ public class AuthService {
 
 
         //  유저가 있으면 ID 만 등록 아니면 유저도 만들기
-        User userFound = userJpaRepository.findByNameAndEmail(username,email).orElseGet(() ->
+        User userFound = userJpaRepository.findByEmail(email).orElseGet(() ->
                 userJpaRepository.save(User.builder()
-                        .Author(username)
                         .email(email)
                         .password(encodedPassword) // 암호화된 비밀번호 저장
-                        .phoneNum(phoneNum)
-                        .role(role)
                         .build())
         );
 
@@ -71,7 +64,7 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // JWT 토큰 생성
-        return jwtTokenProvider.createToken(email,getUserRoles(email));
+        return jwtTokenProvider.createToken(email);
     }
 
     private List<String> getUserRoles(String email) {

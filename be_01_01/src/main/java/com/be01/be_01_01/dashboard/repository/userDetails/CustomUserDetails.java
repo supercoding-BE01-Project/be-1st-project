@@ -2,7 +2,6 @@ package com.be01.be_01_01.dashboard.repository.userDetails;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
@@ -23,10 +22,6 @@ public class CustomUserDetails implements UserDetails {
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities; // 사용자에게 부여된 권한 목록
-
-    public Integer getUserId() {
-        return userId;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
