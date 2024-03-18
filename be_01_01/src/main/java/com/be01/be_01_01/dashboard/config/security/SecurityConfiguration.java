@@ -59,7 +59,8 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 // 요청에 대한 접근 권한 설정
                 .requestMatchers("/resources/static/**", "/api/*","/api/*/*").permitAll() // 정적 자원 및 특정 API 경로는 모두에게 허용
-                .requestMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui/**", "/webjars/**","/swagger/**").permitAll() // Swagger 문서 관련 경로는 모두에게 허용
+                .requestMatchers("/v3/**","/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-ui/index.html").permitAll() // Swagger 문서 관련 경로는 모두에게 허용
+                // "/swagger-ui/index.html" 경로를 명시적으로 추가
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증을 필요로 함
                 .and()
                 .exceptionHandling()
@@ -70,7 +71,6 @@ public class SecurityConfiguration {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // JWT 인증 필터 추가
 
         // 기타 필요한 설정 추가
-
         return http.build(); // HttpSecurity 설정을 기반으로 SecurityFilterChain 객체 생성 및 반환
     }
 
