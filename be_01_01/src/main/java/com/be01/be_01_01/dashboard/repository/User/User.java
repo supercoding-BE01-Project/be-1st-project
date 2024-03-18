@@ -24,33 +24,15 @@ public class User {
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "author",nullable = false,length = 45) // VARCHAR 글자 제한 추가
-    private String author;
-
-    @Column(name = "email",nullable = false, unique = true,length = 45) // VARCHAR 글자 제한 추가
+    @Column(name = "email",nullable = false, unique = true, length = 45) // VARCHAR 글자 제한 추가
     private String email;
-
-    @Column(name = "phone_num",nullable = false, unique = true)
-    private String phoneNum;  // Integer - > String sql도 VARCHAR로 변경
 
     @Column(name = "password",nullable = false)
     private String password;
-
-    @Column(name = "role")
-    private String role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Post> boards = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
-
-    // 사용자의 역할을 Spring Security의 GrantedAuthority로 변환하는 메서드
-    public List<GrantedAuthority> getAuthorities() {
-        if (role == null || role.isEmpty()) {
-            return Collections.emptyList();  // 역할이 없는 경우 빈 목록 반환
-        }
-        return Collections.singletonList(new SimpleGrantedAuthority(this.role));
-        // 역할을 GrantedAuthority로 변환하여 반환
-    }
 }

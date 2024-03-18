@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreatePostDTO {
-    private Integer userId;
     private String title;
     private String content;
+    private String author;
 }

@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CreateCommentDTO {
     private String content;
-    // userId를 사용해서 작성자를 검증하기 위해 author 대신 userId 사용
-    private Integer userId;
+    // 단순히 사용자명을 게시글의 메타정보로만 사용
+    private String author;
     private Integer postId;
 }

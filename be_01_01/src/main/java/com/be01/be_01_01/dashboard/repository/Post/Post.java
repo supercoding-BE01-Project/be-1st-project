@@ -32,6 +32,9 @@ public class Post {
     @Column(name="content",nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Column(name = "author", nullable = false, length = 10)
+    private String author;
+
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;

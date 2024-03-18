@@ -11,6 +11,8 @@ import com.be01.be_01_01.dashboard.repository.User.UserJpaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,15 +29,20 @@ public class PostService {
     @Transactional
     public Post createPost(CreatePostDTO createPostDTO) {
 
-        // Optional.orElseThrow() 사용하여 존재여부만 확인하고 바로 처리
-        User user = userJpaRepository.findById(createPostDTO.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + createPostDTO.getUserId()));
+        // 인증된 사용자의 메일을 가져옴
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName(); // 이메일
+
+        // 이메일 기반으로 사용자 엔티티를 DB에서 조회, .orElseThrow()로 바로 검증
+        User user = userJpaRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. Email : " + email));
 
         // 게시글 작성
         Post post = Post.builder()
                 .user(user)
                 .title(createPostDTO.getTitle())
                 .content(createPostDTO.getContent())
+                .author(createPostDTO.getAuthor())
                 .build();
 
         return postRepository.save(post);
@@ -44,9 +51,13 @@ public class PostService {
     @Transactional
     public Comment createComment(CreateCommentDTO createCommentDTO) {
 
+        // 인증된 사용자의 메일을 가져옴
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName(); // 이메일
+
         // Optional.orElseThrow() 사용하여 존재여부만 확인하고 바로 처리
-        User user = userJpaRepository.findById(createCommentDTO.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. ID : " + createCommentDTO.getUserId()));
+        User user = userJpaRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다. Email : " + email));
         Post post = postRepository.findById(createCommentDTO.getPostId())
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. ID : " + createCommentDTO.getPostId()));
 
@@ -55,6 +66,7 @@ public class PostService {
                 .user(user)
                 .post(post)
                 .content(createCommentDTO.getContent())
+                .author(createCommentDTO.getAuthor())
                 .build();
 
         return commentJpaRepository.save(comment);
@@ -67,7 +79,7 @@ public class PostService {
                 post.getPostId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getUser().getAuthor(),
+                post.getAuthor(),
                 post.getCreatedAt())).collect(Collectors.toList());
     }
 
@@ -77,7 +89,7 @@ public class PostService {
                 post.getPostId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getUser().getAuthor(),
+                post.getAuthor(),
                 post.getCreatedAt())).collect(Collectors.toList());
     }
 
@@ -86,7 +98,7 @@ public class PostService {
         return commentList.stream().map(comment -> new CommentsResponseDTO(
                 comment.getCommentId(),
                 comment.getContent(),
-                comment.getUser().getAuthor(),
+                comment.getAuthor(),
                 comment.getPost().getPostId(),
                 comment.getCreatedAt())).collect(Collectors.toList());
     }
